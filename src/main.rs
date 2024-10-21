@@ -6,7 +6,7 @@ let path = Path::new("./env");
 let mut file = File::open(path).unwrap();
 
 // set data value coming for get_daily value
-let ts = TimeSeries::Daily;
+let ts = ts.get_daily("MSFT", "full").unwrap();
 // set your data columns
 
 // all the tickers I would like to grab data from
