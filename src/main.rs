@@ -1,43 +1,37 @@
-use std::fs::File;
-use std::io::{BufWriter, Write};
+use alphavantage::time_series::TimeSeries;
 use std::path::Path;
-use std::time::{Duration, UNIX_EPOCH};
-use tokio_test;
-use yahoo_finance_api as yahoo;
-use yahoo_finance_api::time::OffsetDateTime;
-use yahoo_finance_api::Quote;
+// path to correct api key
+let path = Path::new("./env");
+// path to open key in the api
+let mut file = File::open(path).unwrap();
 
-fn write_to_csv(data: &Vec<Quote>, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let mut file = File::create(Path::new(filename))?;
-    let mut writer = BufWriter::new(file);
+// set data value coming for get_daily value
+let ts = TimeSeries::Daily;
+// set your data columns
 
-    writeln!(writer, "Timestamp,Open,High,Low,Close,Volume")?;
+// all the tickers I would like to grab data from
+// close price on the day
 
-    for quote in data {
-        writeln!(
-            writer,
-            "{},{},{},{},{},{}",
-            quote.timestamp, quote.open, quote.high, quote.low, quote.close, quote.volume
-        )?;
-    }
+// loop to go through all tickers
+    // set a delay of 5 seconds between calls to the api
+    // cover the Timeseries to JSON format or something else for CSV export?
+    // get data from the get_intraday function
+    // set intraday columns for export
 
-    Ok(())
-}
+    // validation check for empty data rows 
+        // new valriable to drop empty 
+        // remove empty rows 
+        // print messeage 
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let provider = yahoo::YahooConnector::new()?;
-    // get the latest quotes in 1 minute intervals
-    let response = tokio_test::block_on(provider.get_latest_quotes("ABBV", "1mo"))?;
-    // extract just the latest valid quote summery
-    // including timestamp,open,close,high,low,volume
-    let quote = response.last_quote()?;
-    let time: OffsetDateTime =
-        OffsetDateTime::from(UNIX_EPOCH + Duration::from_secs(quote.timestamp));
+    // gather close price per ticker 
+    // print successful fetch 
 
-    // Write the data to a CSV file
-    write_to_csv(&vec![quote], "abbvie_quotes.csv")?;
+    // Execption failure message for failed data fetch 
 
-    println!("Data written to abbvie_quotes.csv");
+// export data to csv file 
 
-    Ok(())
+// print success message
+
+fn main() {
+    println!("Data has been written to alpha_vantage_close_prices.csv")
 }
