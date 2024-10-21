@@ -28,7 +28,7 @@ let ts = ts.get_daily("MSFT", "full").unwrap();
 
     // Execption failure message for failed data fetch 
 
-// export data to csv file 
+// export data to csv file and some other stuff
 
 // print success message
 
